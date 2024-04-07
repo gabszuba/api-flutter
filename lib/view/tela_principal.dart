@@ -17,8 +17,8 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
       ),
       body: Column(
         children: [
-          FutureBuilder<List<String>>(
-            future: ApiBrasil.getCidades('89010025'), // Use the desired CEP here
+          /*FutureBuilder<List<String>>(
+            future: ApiBrasil.getMarcas('carros'), // Use the desired CEP here
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Expanded(
@@ -47,7 +47,40 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                 );
               }
             },
-          ),
+          ),*/
+          FutureBuilder<List<dynamic>>(
+            future: ApiBrasil.getVeiculo('001004-9'), // Use the desired CEP here
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Expanded(
+                  flex: 9,
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              } else if (snapshot.hasError) {
+                return Expanded(
+                  flex: 9,
+                  child: Center(child: Text('Error: ${snapshot.error}')),
+                );
+              } else {
+                List<dynamic>? veiculos = snapshot.data;
+                return Expanded(
+                  flex: 9,
+                  child: ListView.builder(
+                    itemCount: veiculos!.length,
+                    itemBuilder: (context, index) {
+                      var veiculo = veiculos[index];
+                      return Card(
+                        child: ListTile(
+                          title: Text(veiculo['modelo']),
+                          subtitle: Text('Marca: ${veiculo['marca']}; Ano: ${veiculo['anoModelo']}'),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }
+            },
+          )
         ],
       ),
     );
