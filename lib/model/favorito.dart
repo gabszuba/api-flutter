@@ -20,7 +20,7 @@ class ItemFavorito {
     final db = await Banco.instance.database;
     return db.rawInsert(
       """
-      UPDATE OR INSERT INTO favorites(fipeCod, nome) VALUES('${this.fipeCod}', '${this.nome}')
+      INSERT OR REPLACE INTO favorites(fipeCod, nome) VALUES('${this.fipeCod}', '${this.nome}')
       """);
   }
 
