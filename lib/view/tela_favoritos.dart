@@ -56,6 +56,22 @@ class _TelaFavoritosState extends State<TelaFavoritos> {
                           child: ListTile(
                             title: Text(favorite.nome),
                             subtitle: Text(favorite.fipeCod),
+                            trailing: IconButton (
+                              icon: Icon(Icons.delete_rounded, color: Color.fromARGB(255, 175, 47, 38), size: 30.0,),
+                              onPressed: () {
+                                favorite.removeFavorito().then((value) {
+                                  if (value > 0) {
+                                    const snackBar = SnackBar(
+                                      content: Text('Item removido', style: TextStyle(color: Colors.white)),
+                                      backgroundColor: Color.fromARGB(255, 74, 78, 105),
+                                    );
+                                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                  }
+                                }
+                                );
+                                setState(() {});
+                              },
+                            ),
                             tileColor: const Color.fromARGB(255, 222, 222, 231),
                           ),
                         ),

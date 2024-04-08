@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:api/view/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TelaDetalhesVeiculo extends StatelessWidget {
   final Map<String, dynamic> veiculo;
@@ -15,95 +18,62 @@ class TelaDetalhesVeiculo extends StatelessWidget {
         foregroundColor: Colors.white,
       ),
       drawer: NavDrawer(),
-      body: Container (
+      body: Container(
         width: double.infinity,
-        color: const Color.fromARGB(255, 224, 225, 221),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+        color: Color.fromARGB(255, 240, 244, 245),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
               RichText(
                 text: TextSpan(
-                 style: const TextStyle(fontSize: 20, color: Colors.black, height: 2.0),
-                 children: <TextSpan>[
-                    const TextSpan(
-                      text: 'Código FIPE: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                      text: '${veiculo['codigoFipe']}\n',
-                    ),
-                    const TextSpan(
-                      text: 'Valor: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                      text: '${veiculo['valor']}\n',
-                    ),
-                    const TextSpan(
-                      text: 'Marca: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                      text: '${veiculo['marca']}\n',
-                    ),
-                    const TextSpan(
-                      text: 'Modelo: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                      text: '${veiculo['modelo']}\n',
-                    ),
-                    const TextSpan(
-                      text: 'Ano do modelo: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                      text: '${veiculo['anoModelo']}\n',
-                    ),
-                    const TextSpan(
-                      text: 'Combustível: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                      text: '${veiculo['combustivel']}\n',
-                    ),
-                    const TextSpan(
-                      text: 'Mês de referência: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                      text: '${veiculo['mesReferencia']}\n',
-                    ),
-                    const TextSpan(
-                      text: 'Tipo de veículo: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                      text: '${veiculo['tipoVeiculo']}\n',
-                    ),
-                    const TextSpan(
-                      text: 'Sigla combustível: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                      text: '${veiculo['siglaCombustivel']}\n',
-                    ),
-                    const TextSpan(
-                      text: 'Data consulta: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                      text: '${veiculo['dataConsulta']}\n',
-                    ),
-                 ],
+                  style: const TextStyle(
+                      fontSize: 20, color: Colors.black, height: 2.0),
+                  children: <TextSpan>[
+                    _buildTextSpanWithIcon(
+                        ' ', veiculo['valor'],
+                        color: Color.fromARGB(255, 74, 78, 105), fontSize: 26, fontWeight: FontWeight.bold),
+                    _buildTextSpanWithIcon('Código FIPE: ',
+                        veiculo['codigoFipe']),
+                    _buildTextSpanWithIcon(
+                        'Marca: ', veiculo['marca']),
+                    _buildTextSpanWithIcon(
+                        'Modelo: ', veiculo['modelo']),
+                    _buildTextSpanWithIcon(
+                        'Ano do modelo: ', veiculo['anoModelo']),
+                    _buildTextSpanWithIcon(
+                        'Combustível: ', veiculo['combustivel']),
+                    _buildTextSpanWithIcon(
+                        'Mês de referência: ', veiculo['mesReferencia']),
+                    _buildTextSpanWithIcon(
+                        'Tipo de veículo: ', veiculo['tipoVeiculo']),
+                    _buildTextSpanWithIcon(
+                        'Sigla combustível: ', veiculo['siglaCombustivel']),
+                    _buildTextSpanWithIcon(
+                        'Data consulta: ', veiculo['dataConsulta']),
+                  ],
                 ),
               ),
             ],
+          ),
         ),
       ),
-      ),
+    );
+  }
+
+  TextSpan _buildTextSpanWithIcon(String label, dynamic value, 
+      {Color color = Colors.black, FontWeight fontWeight = FontWeight.normal, double fontSize = 20}) {
+    return TextSpan(
+      children: [
+        const TextSpan(
+          text: ' ',
+        ),
+        TextSpan(
+          text: '$label$value\n',
+          style: TextStyle(color: color, fontSize: fontSize, fontWeight: fontWeight),
+        ),
+      ],
     );
   }
 }

@@ -13,26 +13,17 @@ class TelaConsulta extends StatefulWidget {
 }
 
 class _TelaConsultaState extends State<TelaConsulta> {
+  bool standardSelected = false;
+  Map<String, dynamic>? selectedVehicle;
+
   @override
   Widget build(BuildContext context) {
-    bool standardSelected = false;
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text("Resultados da pesquisa"),
         backgroundColor: Color.fromARGB(255, 74, 78, 105),
         foregroundColor: Colors.white,
-        actions: <Widget>[
-          IconButton(
-            isSelected: standardSelected,
-            icon: Icon(Icons.favorite_border),
-            selectedIcon: Icon(Icons.favorite),
-            onPressed: () {
-              setState(() {
-                standardSelected = !standardSelected;
-              });
-            },
-          ),
-        ],
       ),
       drawer: NavDrawer(),
       body: Column(
@@ -48,7 +39,7 @@ class _TelaConsultaState extends State<TelaConsulta> {
               } else if (snapshot.hasError) {
                 return Expanded(
                   flex: 9,
-                  child: Center(child: Text('Error: ${snapshot.error}')),
+                  child: Center(child: Text('${snapshot.error}')),
                 );
               } else {
                 List<dynamic>? veiculos = snapshot.data;
@@ -58,13 +49,11 @@ class _TelaConsultaState extends State<TelaConsulta> {
                       itemCount: veiculos!.length,
                       itemBuilder: (context, index) {
                         var veiculo = veiculos[index];
+                        selectedVehicle = veiculo;
                         
                         return GestureDetector(
                           onTap: () {
-                            ItemFavorito novoFavorito = ItemFavorito(fipeCod: veiculo['codigoFipe'], nome: veiculo['modelo']);
-                            novoFavorito.insereFavorito().then((value) {
-                              if (value > 0) print('Adicionado com sucesso');
-                            });
+                            
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -88,6 +77,28 @@ class _TelaConsultaState extends State<TelaConsulta> {
             },
           )
         ],
+      ),
+      floatingActionButton: IconButton(
+        isSelected: standardSelected,
+        icon: Icon(Icons.favorite_border),
+        selectedIcon: Icon(Icons.favorite),
+        onPressed: () {
+          if(selectedVehicle != null) {
+            setState(() {
+              standardSelected = !standardSelected;
+            });
+            ItemFavorito novoFavorito = ItemFavorito(fipeCod: selectedVehicle!['codigoFipe'], nome: selectedVehicle!['modelo']);
+              novoFavorito.insereFavorito().then((value) {
+                if (value > 0) {
+                  const snackBar = SnackBar(
+                    content: Text('Adicionado aos favoritos', style: TextStyle(color: Colors.white)),
+                    backgroundColor: Color.fromARGB(255, 74, 78, 105),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
+              });
+          }
+        },
       ),
     );
   }

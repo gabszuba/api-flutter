@@ -20,7 +20,7 @@ class Banco {
 
   Future _onCreate(Database db, int version) async {
     await db.execute(
-      'CREATE TABLE favorites(id INTEGER PRIMARY KEY AUTOINCREMENT, fipeCod TEXT, nome TEXT)',
+      'CREATE TABLE favorites(fipeCod TEXT PRIMARY KEY, nome TEXT)',
     );
   }
 

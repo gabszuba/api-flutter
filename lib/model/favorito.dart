@@ -1,13 +1,10 @@
 import 'package:api/model/db/banco.dart';
 
 class ItemFavorito {
-  int? id; 
-
   String fipeCod;
   String nome;
 
   ItemFavorito({
-    this.id,
     required this.fipeCod,
     required this.nome,
   });
@@ -15,7 +12,7 @@ class ItemFavorito {
   Future<int> removeFavorito() async {
     final db = await Banco.instance.database;
     return db.rawDelete("""
-      DELETE FROM favorites WHERE id = '${this.id}'
+      DELETE FROM favorites WHERE fipeCod = '${this.fipeCod}'
     """);
   }
 
@@ -23,7 +20,7 @@ class ItemFavorito {
     final db = await Banco.instance.database;
     return db.rawInsert(
       """
-      INSERT INTO favorites(fipeCod, nome) VALUES('${this.fipeCod}', '${this.nome}')
+      UPDATE OR INSERT INTO favorites(fipeCod, nome) VALUES('${this.fipeCod}', '${this.nome}')
       """);
   }
 
@@ -33,7 +30,6 @@ class ItemFavorito {
 
     return List.generate(maps.length, (i) {
       return ItemFavorito(
-        id: maps[i]['id'],
         fipeCod: maps[i]['fipeCod'],
         nome: maps[i]['nome'],
       );

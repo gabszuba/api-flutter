@@ -49,7 +49,7 @@ class NavDrawer extends StatelessWidget {
           ),
           applicationName: 'Busca FIPE',
           applicationVersion: '1.0',
-          applicationLegalese: '© 2024 Company',
+          applicationLegalese: '© 2024 Zuba&Fernandes',
         ),
         ],
       ),
