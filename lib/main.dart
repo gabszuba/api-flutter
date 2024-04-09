@@ -1,5 +1,3 @@
-import 'package:api/view/tela_consulta.dart';
-import 'package:api/view/tela_favoritos.dart';
 import 'package:api/view/tela_principal.dart';
 import 'package:flutter/material.dart';
 
@@ -14,10 +12,9 @@ class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Consumo de api",
-      initialRoute: '/home',
+      initialRoute: '/',
       routes: {
-        '/home': (context) => const TelaPrincipal(),
-        '/favoritos': (context) => const TelaFavoritos(),
+        '/': (context) => const TelaPrincipal(),
       },
     );
   }
